@@ -10,7 +10,7 @@ class PointCloud {
 public:
     typedef std::vector<Point>::const_iterator PointIterator;
 
-    PointCloud(const std::vector<Point>& points);
+    PointCloud(const std::vector<Point>& points, const Point& min, const Point& max);
     PointIterator begin() const;
     PointIterator end() const;
 
@@ -18,6 +18,7 @@ public:
 
 private:
     std::vector<Point> points;
+    Point min, max;
 };
 
 

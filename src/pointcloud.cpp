@@ -6,7 +6,7 @@
 
 #include "pointcloud.h"
 
-PointCloud::PointCloud(const std::vector<Point>& points) : points(std::move(points)) {}
+PointCloud::PointCloud(const std::vector<Point>& points, const Point& min, const Point& max) : points(std::move(points)), min(min), max(max) {}
 
 PointCloud::PointIterator PointCloud::begin() const {
     return points.begin();
@@ -36,5 +36,8 @@ PointCloud PointCloud::from_vtk(const std::string& filename) {
         points[i].z = current_point[2];
     }
 
-    return PointCloud(points);
+    double bounds[6];
+    vtk_points->GetBounds(bounds);
+
+    return PointCloud(points, Point(bounds[0], bounds[2], bounds[4]), Point(bounds[1], bounds[3], bounds[5]));
 }
