@@ -30,10 +30,13 @@ int main(int argc, char** argv) {
     algorithms.push_back(std::unique_ptr<NnAlgorithm>(new ThrustNnAlgorithm()));
 
     for(auto&& algorithm : algorithms) {
-        algorithm->prepare(pointcloud);
-
+        std::cout << "Copying data for " << algorithm->name() << "..." << std::endl;
         auto start = std::chrono::steady_clock::now();
+        algorithm->prepare(pointcloud);
+        std::cout << "Took " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count() << " ms" << std::endl;
+
         std::cout << "Running " << algorithm->name() << "..." << std::endl;
+        start = std::chrono::steady_clock::now();
         auto solution = algorithm->run();
         std::cout << "Took " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count() << " ms" << std::endl;
 

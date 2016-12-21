@@ -1,12 +1,23 @@
 
+#include <algorithm>
+#include <thrust/copy.h>
+
 #include "thrust_nn_algorithm.h"
 
 void ThrustNnAlgorithm::prepare(const PointCloud& pointcloud) {
-    points.reserve(pointcloud.n_points());
+    thrust::host_vector<CudaPoint> host(pointcloud.n_points());
 
+    int i = 0;
     for(auto point : pointcloud) {
-        points.push_back(CudaPoint(point.x, point.y, point.z));
+        host[i] = CudaPoint(point.x, point.y, point.z);
+        i++;
     }
+
+    points = host;
+}
+
+struct closest_point_op : public thrust::binary_operation<CudaPoint, CudaPoint> {
+    CudaPoint operator()(const CudaPoint& )
 }
 
 std::vector< std::pair<int, double> > ThrustNnAlgorithm::run() {
