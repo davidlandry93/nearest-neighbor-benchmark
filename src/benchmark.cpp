@@ -2,8 +2,12 @@
 #include <gflags/gflags.h>
 
 #include <iostream>
+#include <chrono>
 
 #include "pointcloud.h"
+#include "nn_algorithm.h"
+#include "nabo_nn_algorithm.h"
+#include "thrust_nn_algorithm.h"
 
 DEFINE_string(input, "", "Path to the vtk file to load.");
 
@@ -20,6 +24,24 @@ int main(int argc, char** argv) {
     }
 
     PointCloud pointcloud = PointCloud::from_vtk(FLAGS_input);
+
+    std::vector< std::unique_ptr<NnAlgorithm> > algorithms;
+    algorithms.push_back(std::unique_ptr<NnAlgorithm>(new NaboNnAlgorithm()));
+    algorithms.push_back(std::unique_ptr<NnAlgorithm>(new ThrustNnAlgorithm()));
+
+    for(auto&& algorithm : algorithms) {
+        algorithm->prepare(pointcloud);
+
+        auto start = std::chrono::steady_clock::now();
+        std::cout << "Running " << algorithm->name() << "..." << std::endl;
+        auto solution = algorithm->run();
+        std::cout << "Took " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count() << " ms" << std::endl;
+
+
+        // for(auto pair : solution) {
+        //     std::cout << pair.first << " " << pair.second << std::endl;
+        // }
+    }
 
     return 0;
 }

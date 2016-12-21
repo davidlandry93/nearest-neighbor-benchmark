@@ -16,6 +16,10 @@ PointCloud::PointIterator PointCloud::end() const {
     return points.end();
 }
 
+int PointCloud::n_points() const {
+    return points.size();
+}
+
 PointCloud PointCloud::from_vtk(const std::string& filename) {
     auto reader = vtkSmartPointer<vtkGenericDataObjectReader>::New();
     reader->SetFileName(filename.c_str());

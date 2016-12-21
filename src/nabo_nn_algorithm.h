@@ -1,6 +1,7 @@
 #ifndef NABO_NN_ALGORITHM_H
 #define NABO_NN_ALGORITHM_H
 
+#include <memory>
 #include <nabo/nabo.h>
 
 #include "pointcloud.h"
@@ -9,11 +10,11 @@
 class NaboNnAlgorithm : public NnAlgorithm {
 public:
     NaboNnAlgorithm();
+    std::string name() const;
     void prepare(const PointCloud& pointcloud);
     std::vector< std::pair<int, double> > run();
 private:
     Eigen::MatrixXd m;
-    std::unique_ptr<Nabo::NNSearchF> nns;
 
     void init(const PointCloud& pointcloud);
 };

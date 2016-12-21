@@ -13,6 +13,7 @@ public:
     PointCloud(const std::vector<Point>& points, const Point& min, const Point& max);
     PointIterator begin() const;
     PointIterator end() const;
+    int n_points() const;
 
     static PointCloud from_vtk(const std::string& path);
 
