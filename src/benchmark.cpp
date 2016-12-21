@@ -2,7 +2,6 @@
 #include <gflags/gflags.h>
 
 #include <iostream>
-#include <nabo/nabo.h>
 
 #include "pointcloud.h"
 
