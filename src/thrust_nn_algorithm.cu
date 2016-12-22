@@ -16,9 +16,11 @@ void ThrustNnAlgorithm::prepare(const PointCloud& pointcloud) {
     points = host;
 }
 
-struct closest_point_op : public thrust::binary_operation<CudaPoint, CudaPoint> {
-    CudaPoint operator()(const CudaPoint& )
-}
+struct closest_point_op : public thrust::binary_function<CudaPoint, CudaPoint, CudaPoint> {
+    CudaPoint operator()(const CudaPoint& p1, const CudaPoint& p2) {
+        return CudaPoint();
+    }
+};
 
 std::vector< std::pair<int, double> > ThrustNnAlgorithm::run() {
     return std::vector< std::pair<int, double> >();

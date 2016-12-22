@@ -8,6 +8,7 @@
 #include "nn_algorithm.h"
 #include "nabo_nn_algorithm.h"
 #include "thrust_nn_algorithm.h"
+#include "thrust_reduce_key_nn_algorithm.h"
 
 DEFINE_string(input, "", "Path to the vtk file to load.");
 
@@ -28,6 +29,7 @@ int main(int argc, char** argv) {
     std::vector< std::unique_ptr<NnAlgorithm> > algorithms;
     algorithms.push_back(std::unique_ptr<NnAlgorithm>(new NaboNnAlgorithm()));
     algorithms.push_back(std::unique_ptr<NnAlgorithm>(new ThrustNnAlgorithm()));
+    algorithms.push_back(std::unique_ptr<NnAlgorithm>(new ThrustReduceKeyNnAlgorithm()));
 
     for(auto&& algorithm : algorithms) {
         std::cout << "Copying data for " << algorithm->name() << "..." << std::endl;

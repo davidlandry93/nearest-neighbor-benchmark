@@ -23,6 +23,6 @@ target_link_libraries(benchmark_cpp_lib
   ${VTK_LIBRARIES}
   gflags)
 
-set(CUDA_SOURCES src/benchmark.cu src/thrust_nn_algorithm.cu)
+set(CUDA_SOURCES src/benchmark.cu src/thrust_nn_algorithm.cu src/thrust_reduce_key_nn_algorithm.cu)
 cuda_add_executable(benchmark ${CUDA_SOURCES})
 target_link_libraries(benchmark benchmark_cpp_lib ${CUDA_LIBRARIES})
